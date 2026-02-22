@@ -1,0 +1,128 @@
+import { motion } from "framer-motion";
+
+export default function YoMachoShop() {
+  const products = Array.from({ length: 10 }, (_, i) => ({
+    id: i + 1,
+    name: `YO MACHO Item ${i + 1}`,
+    price: `¥${(i + 1) * 1200}`,
+    image: `/image_${i + 1}.png`,
+  }));
+
+  const characters = [
+    {
+      name: "YO MACHO (Pigeon)",
+      description:
+        "胸筋が共鳴して膨らむ伝説のハト。努力を感知するとパンプアップする応援型キャラクター。",
+    },
+    {
+      name: "IRON PIT (Pitbull)",
+      description:
+        "鋼の精神を持つピットブル。限界の先でも止まらない、不屈のパワーの象徴。",
+    },
+    {
+      name: "Coming Soon...",
+      description:
+        "ランニングチーターなど、新たな動物型アスリートが続々参戦予定。スピード、パワー、持久力の化身たち。",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-yellow-50 p-6">
+      {/* Header with Animated Logo */}
+      <header className="mb-10 flex items-center gap-4">
+        <motion.img
+          src="/title.png"
+          alt="YO MACHO Logo"
+          className="h-16 w-auto"
+          animate={{ scale: [1, 1.08, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight">
+            Welcome, official YO MACHO!!
+          </h1>
+          <p className="text-base mt-1 text-gray-600">
+            筋肉とかわいさの融合ブランドへようこそ。
+          </p>
+        </div>
+      </header>
+
+      {/* Concept Section */}
+      <section className="mb-12">
+        <div className="bg-white rounded-2xl shadow-md p-6">
+          <h2 className="text-2xl font-bold mb-3">Concept</h2>
+          <p className="text-gray-700 leading-relaxed">
+            YO MACHOは、すべてのジム活戦士のための応援団。<br />
+            ロゴは心臓のように鼓動し、キャラクターは努力に反応して筋肉を膨らませます。<br />
+            それは、あなたの成長を可視化するシンボル。<br />
+            見るだけでモチベーションが湧く、生きているブランドです。
+          </p>
+        </div>
+      </section>
+
+      {/* Comment Section */}
+      <section className="mb-12">
+        <div className="bg-white rounded-2xl shadow-md p-6">
+          <h2 className="text-2xl font-bold mb-3">Comment</h2>
+          <p className="text-gray-700 leading-relaxed">
+            かわいいだけじゃない。強いだけでもない。
+            YO MACHOは、努力するすべての人の隣に立つ存在。
+            今日の1REPを、誇りに変えるブランドです。
+          </p>
+        </div>
+      </section>
+
+      {/* Character Introduction */}
+      <section className="mb-12">
+        <div className="bg-white rounded-2xl shadow-md p-6">
+          <h2 className="text-2xl font-bold mb-4">Characters</h2>
+          <div className="space-y-4">
+            {characters.map((char, index) => (
+              <motion.div
+                key={index}
+                className="p-4 border rounded-xl"
+                whileHover={{ scale: 1.02 }}
+              >
+                <h3 className="font-semibold">{char.name}</h3>
+                <p className="text-gray-600 text-sm">{char.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Product Introduction */}
+      <section>
+        <h2 className="text-2xl font-bold mb-6">Products</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {products.map((product) => (
+            <motion.div
+              key={product.id}
+              className="bg-white rounded-2xl shadow-md overflow-hidden"
+              whileHover={{ scale: 1.05 }}
+              animate={{ scale: [1, 1.03, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
+                <motion.img
+                  src={product.image}
+                  alt={product.name}
+                  className="object-contain h-full w-full"
+                  animate={{ scale: [1, 1.06, 1] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </div>
+              <div className="p-4">
+                <h3 className="font-semibold text-lg">{product.name}</h3>
+                <p className="text-gray-500">{product.price}</p>
+                <button className="mt-3 w-full bg-black text-white py-2 rounded-xl hover:opacity-90 transition">
+                  Add to Cart
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
