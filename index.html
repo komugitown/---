@@ -151,6 +151,7 @@ h1{
   font-size:12px;
   font-weight:bold;
   border-radius:6px;
+  transform:rotate(-15deg);
 }
 
 /* SOLD OUT時暗く */
@@ -338,10 +339,13 @@ products.forEach(product => {
   // ボタン
   if(product.soldout){
 
-    const btn = document.createElement("button");
-    btn.innerText = "SOLD OUT";
-    btn.disabled = true;
-    info.appendChild(btn);
+    item.classList.add("soldout");
+
+    const label = document.createElement("div");
+    label.className = "soldout-label";
+    label.innerText = "SOLD OUT";
+
+    item.appendChild(label);
 
   }else{
 
