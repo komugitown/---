@@ -29,6 +29,7 @@ header {
 
 header img {
   height: 120px;
+  max-width: 90vw;
   animation: pulse 2s infinite;
 }
 
@@ -60,6 +61,7 @@ h1 { margin: 0; font-size: 28px; }
   overflow: hidden;
   transition: transform 0.2s;
   position: relative;
+  cursor: pointer;
 }
 
 .character:hover, .product:hover {
@@ -70,6 +72,11 @@ h1 { margin: 0; font-size: 28px; }
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
+  background: #111;
+}
+
+.product.soldout img {
+  opacity: 0.5;
 }
 
 .character-info, .product-info {
@@ -85,6 +92,10 @@ h1 { margin: 0; font-size: 28px; }
   color: white;
   font-weight: bold;
   cursor: pointer;
+}
+
+.product-info button:hover:not(:disabled) {
+  opacity: 0.7;
 }
 
 .product-info button:disabled {
@@ -110,7 +121,7 @@ h1 { margin: 0; font-size: 28px; }
 <div class="container">
 
 <header>
-  <img src="title.png">
+  <img src="title.png" alt="YO MACHO Logo">
   <div>
     <h1>Welcome,<br>official YO MACHO!!</h1>
     <div>筋肉が膨らむブランドへようこそ</div>
@@ -139,40 +150,37 @@ YO MACHOは、努力に反応するブランド。<br>
 /* ===== Characters ===== */
 
 const characters = [
-
 {
   name: "IRON PIT",
   image: "character_1.png",
   description: "鋼の精神を持つピットブル。不屈のパワーの象徴。"
 },
-
 {
   name: "MUSCLE BIRD",
   image: "character_2.png",
   description: "胸筋が膨らむ伝説のハト。努力に反応してパンプアップ。"
 },
-
 {
   name: "RUNNING CHEETAH",
   image: "character_3.png",
   description: "瞬発力の化身。走るほど進化するスピードモンスター。"
 },
-
 {
   name: "BULK BEAR",
   image: "character_4.png",
   description: "増量期の王者。森の中でも常にプロテイン補給。"
 }
-
 ];
 
 const charContainer = document.querySelector(".characters");
 
 characters.forEach(char => {
+
   const item = document.createElement("div");
   item.className = "character";
+
   item.innerHTML = `
-    <img src="${char.image}">
+    <img src="${char.image}" alt="${char.name}" loading="lazy">
     <div class="character-info">
       <b>${char.name}</b><br>
       <span style="opacity:0.7;font-size:14px;">
@@ -180,6 +188,7 @@ characters.forEach(char => {
       </span>
     </div>
   `;
+
   charContainer.appendChild(item);
 });
 
@@ -187,39 +196,30 @@ characters.forEach(char => {
 /* ===== Products ===== */
 
 const products = [
-
 { name:"YO MACHO Pigeon Tee", price:5200, image:"image_1.png", link:"#", soldout:false },
-
 { name:"YO MACHO Iron Hoodie", price:8200, image:"image_2.png", link:"#", soldout:true },
-
 { name:"YO MACHO Street Tank", price:4600, image:"image_3.png", link:"#", soldout:true },
-
 { name:"YO MACHO Power Cap", price:3500, image:"image_4.png", link:"#", soldout:true },
-
 { name:"YO MACHO Gym Shorts", price:5900, image:"image_5.png", link:"#", soldout:true },
-
 { name:"YO MACHO Lift Socks", price:1800, image:"image_6.png", link:"#", soldout:true },
-
 { name:"YO MACHO Pump Bottle", price:2400, image:"image_7.png", link:"#", soldout:true },
-
 { name:"YO MACHO Beast Bag", price:9800, image:"image_8.png", link:"#", soldout:true },
-
 { name:"YO MACHO Bulk Jacket", price:12800, image:"image_9.png", link:"#", soldout:true },
-
 { name:"YO MACHO Limited Black Tee", price:6800, image:"image_10.png", link:"#", soldout:true }
-
 ];
 
 const productContainer = document.querySelector(".products");
-
-productContainer.innerHTML = ""; // ←重要：リセット
+productContainer.innerHTML = "";
 
 products.forEach(product => {
 
   const item = document.createElement("div");
   item.className = "product";
 
-  // SOLD OUTラベル
+  if(product.soldout){
+    item.classList.add("soldout");
+  }
+
   if(product.soldout){
     const label = document.createElement("div");
     label.className = "soldout-label";
@@ -227,12 +227,12 @@ products.forEach(product => {
     item.appendChild(label);
   }
 
-  // 画像
   const img = document.createElement("img");
   img.src = product.image;
+  img.alt = product.name;
+  img.loading = "lazy";
   item.appendChild(img);
 
-  // info
   const info = document.createElement("div");
   info.className = "product-info";
 
@@ -241,7 +241,6 @@ products.forEach(product => {
     ¥${product.price.toLocaleString()}
   `;
 
-  // ボタン
   if(product.soldout){
 
     const btn = document.createElement("button");
@@ -249,7 +248,7 @@ products.forEach(product => {
     btn.disabled = true;
     info.appendChild(btn);
 
-  }else{
+  } else {
 
     const link = document.createElement("a");
     link.href = product.link;
@@ -260,7 +259,6 @@ products.forEach(product => {
 
     link.appendChild(btn);
     info.appendChild(link);
-
   }
 
   item.appendChild(info);
