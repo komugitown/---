@@ -304,57 +304,61 @@ const products=[
 
 ];
 
-const productContainer=document.querySelector(".products");
+const productContainer = document.querySelector(".products");
 
-products.forEach(product=>{
+productContainer.innerHTML = ""; // ←重要：リセット
 
-const item=document.createElement("div");
-item.className="product";
+products.forEach(product => {
 
-if(product.soldout){
-item.classList.add("soldout");
-const label=document.createElement("div");
-label.className="soldout-label";
-label.innerText="SOLD OUT";
-item.appendChild(label);
-}
+  const item = document.createElement("div");
+  item.className = "product";
 
-const img=document.createElement("img");
-img.src=product.image;
-img.loading="lazy";
-item.appendChild(img);
+  // SOLD OUTラベル
+  if(product.soldout){
+    const label = document.createElement("div");
+    label.className = "soldout-label";
+    label.innerText = "SOLD OUT";
+    item.appendChild(label);
+  }
 
-const info=document.createElement("div");
-info.className="product-info";
+  // 画像
+  const img = document.createElement("img");
+  img.src = product.image;
+  item.appendChild(img);
 
-info.innerHTML=`
-<b>${product.name}</b><br>
-¥${product.price.toLocaleString()}
-`;
+  // info
+  const info = document.createElement("div");
+  info.className = "product-info";
 
-if(product.soldout){
+  info.innerHTML = `
+    <b>${product.name}</b><br>
+    ¥${product.price.toLocaleString()}
+  `;
 
-const btn=document.createElement("button");
-btn.innerText="SOLD OUT";
-btn.disabled=true;
-info.appendChild(btn);
+  // ボタン
+  if(product.soldout){
 
-}else{
+    const btn = document.createElement("button");
+    btn.innerText = "SOLD OUT";
+    btn.disabled = true;
+    info.appendChild(btn);
 
-const link=document.createElement("a");
-link.href=product.link;
-link.target="_blank";
+  }else{
 
-const btn=document.createElement("button");
-btn.innerText="Buy on Amazon";
+    const link = document.createElement("a");
+    link.href = product.link;
+    link.target = "_blank";
 
-link.appendChild(btn);
-info.appendChild(link);
+    const btn = document.createElement("button");
+    btn.innerText = "Buy on Amazon";
 
-}
+    link.appendChild(btn);
+    info.appendChild(link);
 
-item.appendChild(info);
-productContainer.appendChild(item);
+  }
+
+  item.appendChild(info);
+  productContainer.appendChild(item);
 
 });
 
