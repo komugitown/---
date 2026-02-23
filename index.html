@@ -212,31 +212,58 @@ const products = [
 
 const productContainer = document.querySelector(".products");
 
+productContainer.innerHTML = ""; // ←重要：リセット
+
 products.forEach(product => {
 
   const item = document.createElement("div");
   item.className = "product";
 
-  const soldLabel = product.soldout
-  ? `<div class="soldout-label">SOLD OUT</div>`
-  : "";
+  // SOLD OUTラベル
+  if(product.soldout){
+    const label = document.createElement("div");
+    label.className = "soldout-label";
+    label.innerText = "SOLD OUT";
+    item.appendChild(label);
+  }
 
-  const button = product.soldout
-  ? `<button disabled>SOLD OUT</button>`
-  : `<a href="${product.link}" target="_blank">
-       <button>Buy on Amazon</button>
-     </a>`;
+  // 画像
+  const img = document.createElement("img");
+  img.src = product.image;
+  item.appendChild(img);
 
-  item.innerHTML = `
-  ${soldLabel}
-  <img src="${product.image}">
-  <div class="product-info">
-  <b>${product.name}</b><br>
-  ¥${product.price.toLocaleString()}<br>
-  ${button}
-  </div>
+  // info
+  const info = document.createElement("div");
+  info.className = "product-info";
+
+  info.innerHTML = `
+    <b>${product.name}</b><br>
+    ¥${product.price.toLocaleString()}
   `;
 
+  // ボタン
+  if(product.soldout){
+
+    const btn = document.createElement("button");
+    btn.innerText = "SOLD OUT";
+    btn.disabled = true;
+    info.appendChild(btn);
+
+  }else{
+
+    const link = document.createElement("a");
+    link.href = product.link;
+    link.target = "_blank";
+
+    const btn = document.createElement("button");
+    btn.innerText = "Buy on Amazon";
+
+    link.appendChild(btn);
+    info.appendChild(link);
+
+  }
+
+  item.appendChild(info);
   productContainer.appendChild(item);
 
 });
